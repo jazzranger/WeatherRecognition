@@ -34,6 +34,7 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
 	});
 });
 
+
 /**
  * Updates the thumbnail on a drop zone element.
  *
@@ -42,6 +43,7 @@ document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
  */
 function updateThumbnail(dropZoneElement, file) {
 	let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+	let predictResult = document.getElementById('predictResult');
 
 	// First time - remove the prompt
 	if (dropZoneElement.querySelector(".drop-zone__prompt")) {
@@ -61,12 +63,19 @@ function updateThumbnail(dropZoneElement, file) {
 
 	// Show thumbnail for image files
 	if (file.type.startsWith("image/")) {
-		const reader = new FileReader();
-
-		reader.readAsDataURL(file);
-		reader.onload = () => {
-			thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
-		};
+        const reader = new FileReader();
+        const formData = new FormData();
+        formData.append('file', file);
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+            fetch('http://127.0.0.1:5000/predict', {
+              method: 'POST',
+              body: formData
+            }).then((res) => res.json()).then((res)=>{
+                predictResult.innerHTML = res["result"];
+            });
+        }
 	} else {
 		thumbnailElement.style.backgroundImage = null;
 	}
