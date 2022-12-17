@@ -1,6 +1,6 @@
 body,h1,p,h2{
 	margin: 0px;
-  background-color: #179be8;
+    background-color: #e9967a;
 }
 
 h2{
@@ -171,4 +171,11 @@ ul li:hover {opacity: 1;}
 .first a{
   text-decoration: none;
   color: black;
+}
+
+#predictResult {
+	color: #FFFFFF;
+	font-family: Arial;
+	font-size: 50px;
+	text-align: center;
 }
